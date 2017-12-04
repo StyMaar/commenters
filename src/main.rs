@@ -52,7 +52,11 @@ fn list_comments(article: String) -> Json<Vec<DbComment>> {
 }
 
 fn main() {
-    rocket::ignite().mount("/", routes![new_comment, list_comments]).launch();
+    use rocket::config::{Environment, Config, Limits};
+    let config = Config::build(Environment::Development)
+           .limits(Limits::default().limit("json", 600).limit("forms", 0))
+           .unwrap();
+    rocket::custom(config, true).mount("/", routes![new_comment, list_comments]).launch();
 }
 
 // curl 'http://localhost:8000/poney/comments' -H 'Accept: */*' --compressed -H 'Content-Type: application/json' --data '{"author":"yolo@hello.example.org", "text":"yolo !!!"}'
