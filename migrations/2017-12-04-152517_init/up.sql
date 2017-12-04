@@ -1,0 +1,6 @@
+CREATE TABLE comments (
+  id INTEGER NOT NULL PRIMARY KEY,
+  article VARCHAR NOT NULL,
+  message VARCHAR NOT NULL,
+  author VARCHAR NOT NULL
+);
