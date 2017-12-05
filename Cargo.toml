@@ -14,3 +14,4 @@ diesel = { version = "0.16.0", features = ["sqlite"] }
 diesel_codegen = { version = "0.16.0", features = ["sqlite"] }
 dotenv = "0.8"
 chrono = "0.4"
+rocket_cors = "0.2.1"

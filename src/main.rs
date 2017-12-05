@@ -5,7 +5,12 @@
 
 #[macro_use] extern crate serde_derive;
 
+extern crate rocket_cors;
+
 use rocket::response::status::Accepted;
+
+use rocket::http::Method;
+use rocket_cors::{AllowedOrigins, AllowedHeaders};
 
 #[macro_use]
 extern crate diesel;
@@ -60,7 +65,17 @@ fn static_assets(path: PathBuf) -> Option<NamedFile> {
 }
 
 fn main() {
-    rocket::ignite().mount("/", routes![new_comment, list_comments, static_assets]).launch();
+
+    let (allowed_origins, failed_origins) = AllowedOrigins::some(&["http://localhost:3000"]);
+    assert!(failed_origins.is_empty());
+
+    let options = rocket_cors::Cors {
+        allowed_origins: allowed_origins,
+        allowed_methods: vec![Method::Get, Method::Post].into_iter().map(From::from).collect(),
+        ..Default::default()
+    };
+
+    rocket::ignite().mount("/", routes![new_comment, list_comments, static_assets]).attach(options).launch();
 }
 
 // curl 'http://localhost:8000/poney/comments' -H 'Accept: */*' --compressed -H 'Content-Type: application/json' --data '{"author":"yolo@hello.example.org", "text":"yolo !!!"}'
