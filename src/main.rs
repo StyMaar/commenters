@@ -46,13 +46,21 @@ fn new_comment(article: String, comment: Json<Comment>) -> Accepted<Json<Comment
     Accepted(None)
 }
 
-#[get("/<article>/comments", format = "application/json")]
+#[get("/<article>/comments", format = "application/json", rank = 2)]
 fn list_comments(article: String) -> Json<Vec<DbComment>> {
     fetch_comments(&article)
 }
 
+use std::path::{Path, PathBuf};
+use rocket::response::NamedFile;
+
+#[get("/static/<path..>")]
+fn static_assets(path: PathBuf) -> Option<NamedFile> {
+    NamedFile::open(Path::new("static/").join(path)).ok()
+}
+
 fn main() {
-    rocket::ignite().mount("/", routes![new_comment, list_comments]).launch();
+    rocket::ignite().mount("/", routes![new_comment, list_comments, static_assets]).launch();
 }
 
 // curl 'http://localhost:8000/poney/comments' -H 'Accept: */*' --compressed -H 'Content-Type: application/json' --data '{"author":"yolo@hello.example.org", "text":"yolo !!!"}'
