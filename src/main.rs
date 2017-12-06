@@ -76,7 +76,12 @@ fn static_assets(path: PathBuf) -> Option<NamedFile> {
 
 fn main() {
 
-    let (allowed_origins, failed_origins) = AllowedOrigins::some(&["http://localhost:3000"]);
+
+    dotenv().ok();
+
+    let site_url = env::var("SITE_URL").expect("SITE_URL must be set");
+
+    let (allowed_origins, failed_origins) = AllowedOrigins::some(&[&site_url]);
     assert!(failed_origins.is_empty());
 
     let options = rocket_cors::Cors {
@@ -112,7 +117,6 @@ fn fetch_comments(art: &str) -> Json<Vec<Comment>>{
 }
 
 fn establish_connection() -> SqliteConnection {
-    dotenv().ok();
 
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     SqliteConnection::establish(&database_url)
