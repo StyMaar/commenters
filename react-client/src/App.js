@@ -3,6 +3,8 @@ import axios from 'axios';
 
 import './style.css';
 
+const NOMBRE_CARACTERES = 600;
+
 class ChatElement extends Component {
 
   // pour mettre à jour seulement une propriété du state sans toucher aux autres
@@ -100,25 +102,32 @@ class NewCommentArea extends Component {
   }
 
   handleCommentChange(event) {
-    this.setState(Object.assign({}, this.state,{comment: event.target.value}));
+    let comment = event.target.value
+    if(comment.length <= NOMBRE_CARACTERES) {
+      this.setState(Object.assign({}, this.state,{ comment }));
+    }
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <label>
-          Votre nom :
-          <input type="text" value={this.state.author} onChange={this.handleNameChange.bind(this)} />
-        </label>
-        <label>
-          Votre commentaire :
-          <textarea value={this.state.comment} onChange={this.handleCommentChange.bind(this)} />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div>
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          <label>
+            Votre nom :
+            <input type="text" value={this.state.author} onChange={this.handleNameChange.bind(this)} />
+          </label>
+          <label>
+            Votre commentaire :
+            <textarea value={this.state.comment} onChange={this.handleCommentChange.bind(this)} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        <aside>
+          {NOMBRE_CARACTERES - this.state.comment.length} caractères restants.
+        </aside>
+      </div>
     );
   }
 }
-
 
 export default ChatElement;
