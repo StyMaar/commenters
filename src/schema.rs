@@ -1,1 +1,9 @@
-infer_schema!("dotenv:DATABASE_URL");
+table! {
+    comments (uuid) {
+        article -> Text,
+        message -> Text,
+        author -> Text,
+        date -> Text,
+        uuid -> Text,
+    }
+}
