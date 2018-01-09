@@ -1,0 +1,53 @@
+#commenteRs {
+  width: 90%;
+  max-width: 800px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  margin: 30px auto;
+}
+
+#commenteRs form label,
+#commenteRs form textarea,
+#commenteRs form input {
+  display: block;
+  box-sizing: border-box;
+  max-width:500px;
+  width: 100%;
+  margin: 0px auto;
+}
+
+#commenteRs form textarea,
+#commenteRs form input {
+  margin: 0px auto 20px auto;
+}
+
+#commenteRs form textarea{
+  height: 200px;
+}
+
+#commenteRs header h3 {
+  display: inline-block;
+  margin: 0px 10px 0px 0px;
+  font-weight: normal;
+  font-style: italic;
+}
+
+
+#commenteRs .permalink {
+  font-size: 0.9em;
+  text-align: right;
+}
+
+#commenteRs .comment {
+  margin-top: 10px;
+  margin-left: 20px;
+  max-height: 600px;
+}
+
+#commenteRs .individualCommentBlock {
+  margin-bottom: 15px;
+}
+
+#commenteRs .commentList {
+  margin-top: 50px;
+}

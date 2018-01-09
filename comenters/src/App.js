@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+import './style.css';
+
 class ChatElement extends Component {
 
   // pour mettre à jour seulement une propriété du state sans toucher aux autres
@@ -63,10 +65,10 @@ class Comment extends Component {
     let permalink = `${window.location}#${this.props.id}`;
 
     return (
-      <div className="comment" id={this.props.id}>
+      <div className="individualCommentBlock" id={this.props.id}>
         <header>
           <h3>{this.props.author}</h3>
-          <h3>Le {formattedDateString}</h3>
+          <h3>le {formattedDateString}</h3>
         </header>
         <div className="comment" dangerouslySetInnerHTML={{ __html: this.props.message }}></div>
         <div className="permalink">
