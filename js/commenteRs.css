@@ -1,0 +1,10 @@
+#commenteRs {
+  width: 90%;
+  max-width: 800px;
+  overflow-wrap: break-word;
+  margin: 30px auto;
+}
+
+#commenteRs p {
+  margin-left: 20px
+}
