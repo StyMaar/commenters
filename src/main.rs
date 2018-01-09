@@ -45,14 +45,40 @@ extern crate rocket;
 
 use rocket_contrib::{Json};
 
+
+extern crate pulldown_cmark;
+extern crate ammonia;
+
+
+
+use pulldown_cmark::{Parser, OPTION_ENABLE_TABLES};
+use pulldown_cmark::html::push_html;
+use ammonia::Builder;
+
+fn sanitize_user_messages(text : &str) -> String{
+
+    let md_parse = Parser::new_ext(text, OPTION_ENABLE_TABLES);
+    let mut unsafe_html = String::new();
+    push_html(&mut unsafe_html, md_parse);
+
+    let mut ammonia_builder = Builder::default();
+    let ammonia_without_images = ammonia_builder.rm_tags(std::iter::once("img"));
+
+    let safe_html = ammonia_without_images.clean(&*unsafe_html).to_string();
+    safe_html
+}
+
 #[post("/<article>/comments", format = "application/json", data = "<comment>")]
 fn new_comment(article: String, comment: Json<PartialComment>) -> Accepted<Json<Comment>> {
 
     let uuid = Uuid::new_v4();
     let date = format!("{:?}",Utc::now()); // Javascript n'arrive pas à parser le résultat de Utc::to_string(), par contre il arrive bien à parser la valeur renvoyé par l'implem de Debug par Utc. Allez comprendre …
+
+    let cleaned_message = sanitize_user_messages(&comment.text);
+
     let db_comment = NewComment{
         article: &article,
-        message: &comment.text,
+        message: &cleaned_message,
         author: &comment.author,
         date: &date,
         uuid: &uuid.simple().to_string(),

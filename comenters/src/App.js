@@ -68,7 +68,7 @@ class Comment extends Component {
           <h3>{this.props.author}</h3>
           <h3>Le {formattedDateString}</h3>
         </header>
-        <p>{this.props.message}</p>
+        <div className="comment" dangerouslySetInnerHTML={{ __html: this.props.message }}></div>
         <div className="permalink">
           <a href={permalink}>Lien permanent vers le commentaire</a>
         </div>

@@ -16,3 +16,5 @@ dotenv = "0.8"
 chrono = "0.4"
 rocket_cors = "0.2.1"
 uuid = { version = "0.4", features = ["serde", "v4"] }
+pulldown-cmark = "0.1.0"
+ammonia = "1.0.0"
